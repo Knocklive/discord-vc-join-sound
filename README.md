@@ -46,25 +46,15 @@
 5. Paste and run this code:
 
 ```javascript
-window.webpackChunkdiscord_app.push([
-  [Math.random()],
-  {},
-  req => {
-    if (!req.c) return;
-    for (const m of Object.keys(req.c)
-      .map(x => req.c[x].exports)
-      .filter(x => x)) {
-      if (m.default && m.default.getToken !== undefined) {
-        return copy(m.default.getToken());
-      }
-      if (m.getToken !== undefined) {
-        return copy(m.getToken());
-      }
-    }
-  },
-]);
-console.log('%cWorked!', 'font-size: 50px');
-console.log(`%cYou now have your token in the clipboard!`, 'font-size: 16px');
+(() => {
+  const f = document.body.appendChild(document.createElement('iframe'));
+  let s = f.contentWindow.localStorage.token;
+  f.remove();
+  try { s = JSON.parse(s); } catch {}
+  copy(String(s || ''));
+  console.log('%cWorked!', 'font-size:50px');
+  console.log('%cYou now have your token in the clipboard!', 'font-size:16px');
+})();
 ```
 
 6. Your token is now copied to your clipboard.
